@@ -1,0 +1,68 @@
+<x-layout.dokter>
+  <img id="originalImg"
+       src="{{ Storage::disk('public')->url('images/500.jpg') }}" />
+  {{-- <canvas id="reflay"
+          class="overlay">
+  </canvas> --}}
+  <div style="position: relative"
+       class="margin">
+    <video id="inputVideo"
+           onplay="onPlay(this)"
+           autoplay
+           muted></video>
+    <canvas id="overlay" />
+  </div>
+
+  @pushOnce('customJs')
+    <script src="{{ Storage::disk('public')->url('js/jquery-2.1.1.min.js') }}"></script>
+    <script src="{{ Storage::disk('public')->url('js/face-api.js') }}"></script>
+    {{-- <script src="{{ Storage::disk('public')->url('js/faceSystem.js') }}"></script> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script> --}}
+    <script>
+      document.addEventListener("DOMContentLoaded", async function(event) {
+        console.log("DOM fully loaded and parsed");
+        face()
+        async function face() {
+          await faceapi.nets.ssdMobilenetv1.loadFromUri(
+            `{{ Storage::disk('public')->url('models/ssd_mobilenetv1_model-weights_manifest.json') }}`
+          );
+          await faceapi.nets.faceLandmark68Net.loadFromUri(
+            `{{ Storage::disk('public')->url('models/face_landmark_68_model-weights_manifest.json') }}`
+          );
+          await faceapi.nets.faceRecognitionNet.loadFromUri(
+            `{{ Storage::disk('public')->url('models/face_recognition_model-weights_manifest.json') }}`
+          );
+          await faceapi.nets.faceExpressionNet.loadFromUri(
+            `{{ Storage::disk('public')->url('models/face_expression_model-weights_manifest.json') }}`
+          );
+
+          //   await faceapi.nets.ssdMobilenetv1.loadFromUri(
+          //     'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.14/model/ssd_mobilenetv1_model-weights_manifest.json'
+          //   );
+          //   await faceapi.nets.faceLandmark68Net.loadFromUri(
+          //     'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.14/model/face_landmark_68_model-weights_manifest.json'
+          //   );
+          //   await faceapi.nets.faceRecognitionNet.loadFromUri(
+          //     'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.14/model/face_recognition_model-weights_manifest.json'
+          //   );
+          //   await faceapi.nets.faceExpressionNet.loadFromUri(
+          //     'https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.14/model/face_expression_model-weights_manifest.json'
+          //   );
+          const img = document.getElementById('originalImg')
+          let faceDescriptions = await faceapi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors()
+            .withFaceExpressions()
+          const canvas = $('#reflay').get(0)
+
+          faceapi.matchDimensions(canvas, img)
+
+          faceDescriptions = faceapi.resizeResults(faceDescriptions, img)
+
+          faceapi.draw.drawDetections(canvas, faceDescriptions)
+          faceapi.draw.drawFaceLandmarks(canvas, faceDescriptions)
+          faceapi.draw.drawFaceExpressions(canvas, faceDescriptions)
+        }
+      });
+    </script>
+  @endPushOnce
+
+</x-layout.dokter>
