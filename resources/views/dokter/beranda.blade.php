@@ -200,6 +200,18 @@
         //   alert('Lokasi gagal ditemukan');
         // }
         // map.on('locationerror', onLocationError);
+
+        if ("geolocation" in navigator) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            console.log('Latitude: ' + lat + ', Longitude: ' + lon);
+          }, function(error) {
+            console.error("Error getting location: ", error);
+          });
+        } else {
+          alert("Geolocation is not supported by your browser.");
+        }
       });
     </script>
   @endPushOnce
