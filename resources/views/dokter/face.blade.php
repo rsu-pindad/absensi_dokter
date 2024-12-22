@@ -1,7 +1,7 @@
 <x-layout.dokter>
 
   <div class="mt-6 flex flex-col justify-center gap-y-4">
-    <div class="relative h-auto w-full">
+    {{-- <div class="relative h-auto w-full">
       <video class="relative z-10 w-full"
              autoplay
              playsinline>
@@ -9,11 +9,12 @@
       </video>
       <div class="absolute left-0 top-0 z-20 h-full w-full bg-gray-900 opacity-40"></div>
       <div class="align-start absolute left-0 top-0 z-30 flex h-full w-full flex-col justify-end p-8">
-        <h3 class="text-3xl font-semibold text-white text-pretty uppercase">Mohon ijinkan akses kamera & akses lokasi</h3>
+        <h3 class="text-pretty text-3xl font-semibold uppercase text-white">Mohon ijinkan akses kamera & akses lokasi
+        </h3>
       </div>
-    </div>
+    </div> --}}
 
-    {{-- <div class="relative h-auto w-full">
+    <div class="relative h-auto w-full">
       <video id="webcam"
              autoplay
              playsinline
@@ -25,9 +26,9 @@
       <canvas id="webcam-container"
               class="absolute hidden w-full">
       </canvas>
-    </div> --}}
+    </div>
 
-    <div class="mt-4 gap-3 grid grid-cols-2 place-content-stretch">
+    <div class="mt-4 grid grid-cols-2 place-content-stretch gap-3">
       <label class="me-5 inline-flex cursor-pointer items-center">
         <input id="webcam-switch"
                type="checkbox"
