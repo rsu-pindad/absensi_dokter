@@ -72,7 +72,6 @@
         let longitudeButton = document.getElementById('longitudeBtn');
         let latitudeButton = document.getElementById('latitudeBtn');
 
-
         let longInput = document.getElementById('longitudeInput');
         let latInput = document.getElementById('latitudeInput');
         let radiusInput = document.getElementById('radiusInput');
@@ -80,7 +79,6 @@
         var map = L.map('map').setView([-6.940067507628112, 107.64661628064961], 18);
         // const currentLong = '107.64661628064961';
         // const currentLat = '-6.940067507628112';
-        // var map = L.map('map').fitWorld();
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 18,
           minZoom: 18,
@@ -107,45 +105,101 @@
           minZoon: 18
         });
 
-        function onLocationFound(e) {
-          var radius = e.accuracy;
-          var userLocation = map.getCenter(e.latlng);
-          var absenLocation = circle.getLatLng();
-          let posisi = map.distance(userLocation, absenLocation);
+        navigator.geolocation.getCurrentPosition(
+          function(response) {
+            console.log(response);
+            var radius = response.coords.accuracy;
+            var lat = response.coords.latitude;
+            var lon = response.coords.longitude;
+            console.log('Latitude: ' + lat + ', Longitude: ' + lon);
+            var userLocation = map.getCenter({
+              lat,
+              lon
+            });
+            var absenLocation = circle.getLatLng();
+            let posisi = map.distance(userLocation, absenLocation);
+            var userMarker = L.marker({
+              lat,
+              lon
+            }).addTo(map);
 
-          console.log(posisi);
-          var userMarker = L.marker(e.latlng).addTo(map);
-          //   console.log(userMarker.toGeoJSON());
-          //   console.log(circle.toGeoJSON());
+            akurasiButton.innerText = `akurasi : ${radius}`;
+            longitudeButton.innerText = `lat : ${(lat).toFixed(4)}`;
+            latitudeButton.innerText = `long : ${(lon).toFixed(4)}`;
 
-          akurasiButton.innerText = `akurasi : ${radius}`;
-          longitudeButton.innerText = `lat : ${(e.latitude).toFixed(4)}`;
-          latitudeButton.innerText = `long : ${(e.longitude).toFixed(4)}`;
-          if (posisi < 20) {
-            userMarker.bindPopup("Anda berada di zona absen!").openPopup();
-            absenButton.disabled = false;
-            absenButton.classList.remove("cursor-not-allowed");
-            longInput.value = e.longitude;
-            latInput.value = e.latitude;
-            radiusInput.value = posisi;
-          } else {
-            userMarker.bindPopup(
-                `Anda berada di luar zona absen, mohon geser. sekitar ${Math.trunc(posisi)} meter dari posisi anda`)
-              .openPopup();
+            map.setView([lat, lon], 18);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            L.marker([lat, lon]).addTo(map)
+            //   .bindPopup("You are here")
+            //   .openPopup();
+            if (posisi < 20) {
+              userMarker.bindPopup("Anda berada di zona absen!").openPopup();
+              absenButton.disabled = false;
+              absenButton.classList.remove("cursor-not-allowed");
+              longInput.value = lon;
+              latInput.value = lat;
+              radiusInput.value = posisi;
+            } else {
+              userMarker.bindPopup(
+                  `Anda berada di luar zona absen, mohon geser. sekitar ${Math.trunc(posisi)} meter dari posisi anda`
+                )
+                .openPopup();
+            }
+
+          },
+          function(error) {
+            console.error(error);
+            alert(error);
+          }, {
+            timeout: 1000 * 60,
+            enableHighAccuracy: true,
+            maximumAge: 1000 * 60 * 60
           }
+        );
 
-          // .bindPopup("Anda berada dalam jarak " + radius + " meter dari titik lokasi").openPopup();
-          //   L.circle(e.latlng, radius).addTo(map);
+        // function onLocationFound(e) {
+        //   console.log(e);
 
-          map.stopLocate();
-        }
+        //   var radius = e.accuracy;
+        //   var userLocation = map.getCenter(e.latlng);
+        //   var absenLocation = circle.getLatLng();
+        //   let posisi = map.distance(userLocation, absenLocation);
 
-        map.on('locationfound', onLocationFound);
+        //   // console.log(posisi);
+        //   var userMarker = L.marker(e.latlng).addTo(map);
+        //   //   console.log(userMarker.toGeoJSON());
+        //   //   console.log(circle.toGeoJSON());
 
-        function onLocationError(e) {
-          alert('Lokasi gagal ditemukan');
-        }
-        map.on('locationerror', onLocationError);
+        //   akurasiButton.innerText = `akurasi : ${radius}`;
+        //   longitudeButton.innerText = `lat : ${(e.latitude).toFixed(4)}`;
+        //   latitudeButton.innerText = `long : ${(e.longitude).toFixed(4)}`;
+        //   if (posisi < 20) {
+        //     userMarker.bindPopup("Anda berada di zona absen!").openPopup();
+        //     absenButton.disabled = false;
+        //     absenButton.classList.remove("cursor-not-allowed");
+        //     longInput.value = e.longitude;
+        //     latInput.value = e.latitude;
+        //     radiusInput.value = posisi;
+        //   } else {
+        //     userMarker.bindPopup(
+        //         `Anda berada di luar zona absen, mohon geser. sekitar ${Math.trunc(posisi)} meter dari posisi anda`
+        //       )
+        //       .openPopup();
+        //   }
+
+        //   // .bindPopup("Anda berada dalam jarak " + radius + " meter dari titik lokasi").openPopup();
+        //   //   L.circle(e.latlng, radius).addTo(map);
+
+        //   map.stopLocate();
+        // }
+
+        // map.on('locationfound', onLocationFound);
+
+        // function onLocationError(e) {
+        //   alert('Lokasi gagal ditemukan');
+        // }
+        // map.on('locationerror', onLocationError);
       });
     </script>
   @endPushOnce
