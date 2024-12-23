@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\Dokter\FaceRecognitionController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\GoogleLoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,23 +17,18 @@ use Illuminate\Support\Facades\Route;
  * |
  */
 
-Route::get('/', function () {
-    // return view('welcome');
-    return view('guest.login');
-});
-
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/logout', [GoogleLoginController::class, 'handleGoogleLogout'])->name('google.logout');
+    Route::get('/logout', [GoogleLoginController::class, 'handleGoogleLogout'])->name('google-logout');
 
-    Route::post('absensi', [BerandaController::class, 'store'])->name('absensi-store');
+    Route::get('/', [BerandaController::class,         'index'])->name('beranda');
+    Route::post('/absensi', [BerandaController::class, 'store'])->name('absensi-store');
+
+    Route::get('/absensi-face', [FaceRecognitionController::class,     'face'])->name('absensi-face');
+    Route::get('/absensi-location', [FaceRecognitionController::class, 'location'])->name('absensi-location');
 });
-
-Route::get('/beranda', [BerandaController::class, 'index'])
-    ->middleware('auth');
-
-Route::get('/dokter/face', [FaceRecognitionController::class, 'index']);
 
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
-    Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
+    Route::get('/login', [AuthController::class,                  'login'])->name('login');
+    Route::get('/google/redirect', [GoogleLoginController::class, 'redirectToGoogle'])->name('google-redirect');
+    Route::get('/google/callback', [GoogleLoginController::class, 'handleGoogleCallback'])->name('google-callback');
 });

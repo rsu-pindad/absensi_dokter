@@ -313,35 +313,29 @@
               data-dropdown-toggle="dropdown">
         <span class="sr-only">Open user menu</span>
         <img class="h-8 w-8 rounded-full"
-             src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+             src="{{ Avatar::create(Auth::user()->name)->toBase64() }}"
              alt="user photo" />
       </button>
       <!-- Dropdown menu -->
       <div id="dropdown"
-           class="z-50 my-4 hidden w-56 list-none divide-y divide-gray-100 rounded rounded-xl bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700">
+           class="z-50 my-4 hidden w-56 list-none divide-y divide-gray-100 rounded-xl bg-white text-base shadow dark:divide-gray-600 dark:bg-gray-700">
         <div class="px-4 py-3">
-          <span class="block text-sm font-semibold text-gray-900 dark:text-white">Neil Sims</span>
-          <span class="block truncate text-sm text-gray-900 dark:text-white">name@flowbite.com</span>
+          <span class="block text-sm font-semibold text-gray-900 dark:text-white">{{ Auth::user()->name }}</span>
+          <span class="block truncate text-sm text-gray-900 dark:text-white">{{ Auth::user()->email }}</span>
         </div>
         <ul class="py-1 text-gray-700 dark:text-gray-300"
             aria-labelledby="dropdown">
           <li>
             <a href="#"
-               class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">My
-              profile</a>
-          </li>
-          <li>
-            <a href="#"
-               class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">Account
-              settings</a>
+               class="block px-4 py-2 text-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white">
+              Profil</a>
           </li>
         </ul>
         <ul class="py-1 text-gray-700 dark:text-gray-300"
             aria-labelledby="dropdown">
           <li>
-            <a href="#"
-               class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
-              out</a>
+            <a href="{{ route('google-logout') }}"
+               class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Keluar</a>
           </li>
         </ul>
       </div>

@@ -41,7 +41,7 @@
         let googleBtn = document.getElementById('googleButton');
         googleBtn.addEventListener('click', function(e) {
           e.preventDefault();
-          const url = `{{ route('google.redirect') }}`;
+          const url = `{{ route('google-redirect') }}`;
           // console.log('button clicked');
           location.href = url;
         });

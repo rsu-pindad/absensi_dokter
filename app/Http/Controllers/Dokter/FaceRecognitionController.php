@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class FaceRecognitionController extends Controller
 {
-    public function index()
+    public function face()
     {
-        return view('dokter.face');
+        return view('beranda.face');
     }
 }

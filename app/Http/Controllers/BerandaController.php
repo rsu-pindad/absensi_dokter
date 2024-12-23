@@ -9,7 +9,7 @@ class BerandaController extends Controller
 {
     public function index()
     {
-        return view('dokter/beranda');
+        return view('beranda/index');
     }
 
     public function store(Request $request)
