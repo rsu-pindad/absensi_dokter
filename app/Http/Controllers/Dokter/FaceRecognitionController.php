@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class FaceRecognitionController extends Controller
 {
+    public function faceLocation()
+    {
+        return view('beranda.face-location');
+    }
     public function face()
     {
         return view('beranda.face');

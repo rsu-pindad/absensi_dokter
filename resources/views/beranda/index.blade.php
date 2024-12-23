@@ -10,7 +10,7 @@
             {{ Illuminate\Support\Carbon::today()->formatLocalized('%A, %d %B %Y') }}
             anda belum Absen !
           </h1>
-          <a href="{{ route('absensi-face') }}"
+          <a href="{{ route('absensi-fl') }}"
              class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-3 text-center text-base font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
             Absen
             @svg('tabler-fingerprint-scan', 'w-8 h-8 ms-2')
@@ -22,7 +22,7 @@
           <h1 class="mb-3 text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-4xl">
             Halo {{ Auth::user()->name }}, terimakasih sudah mengisi absensi
           </h1>
-          <a href="{{ route('absensi-face') }}"
+          <a href="{{ route('absensi-fl') }}"
              class="inline-flex items-center justify-center rounded-lg bg-primary-700 px-5 py-3 text-center text-base font-medium text-white hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900">
             Lihat Absensi
             @svg('tabler-fingerprint-scan', 'w-8 h-8 ms-2')

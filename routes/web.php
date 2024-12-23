@@ -23,8 +23,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [BerandaController::class,         'index'])->name('beranda');
     Route::post('/absensi', [BerandaController::class, 'store'])->name('absensi-store');
 
-    Route::get('/absensi-face', [FaceRecognitionController::class,     'face'])->name('absensi-face');
-    Route::get('/absensi-location', [FaceRecognitionController::class, 'location'])->name('absensi-location');
+    Route::get('/absensi-fl', [FaceRecognitionController::class,     'faceLocation'])->name('absensi-fl');
+    // Route::get('/absensi-face', [FaceRecognitionController::class,     'face'])->name('absensi-face');
+    // Route::get('/absensi-location', [FaceRecognitionController::class, 'location'])->name('absensi-location');
 });
 
 Route::group(['middleware' => 'guest'], function () {

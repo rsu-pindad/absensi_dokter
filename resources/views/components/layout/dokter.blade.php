@@ -19,7 +19,7 @@
 
       <x-dokter.sidebar />
 
-      <main class="h-auto p-4 pt-20 md:ml-64">
+      <main class="h-screen p-4 pt-20 md:ml-64">
         {{ $slot }}
       </main>
     </div>
