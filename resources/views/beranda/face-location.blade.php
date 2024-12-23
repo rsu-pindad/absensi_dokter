@@ -316,14 +316,14 @@
                 latInput.value = lat;
                 radiusInput.value = posisi;
                 if (posisi < radiusAbsensi) {
-                  Notiflix.Notify.success('Lokasi ditemukan');
+                  // Notiflix.Notify.success('Lokasi ditemukan');
                   userMarker.bindPopup("Anda berada di zona absen!").openPopup();
                   // absenButton.disabled = false;
                   // absenButton.classList.remove("cursor-not-allowed");
                 } else {
                   // absenButton.disabled = false;
                   // webcam.stop();
-                  Notiflix.Notify.warning('anda diluar zona');
+                  // Notiflix.Notify.warning('anda diluar zona');
                   userMarker.bindPopup(
                     `Anda berada di luar zona absen, mohon geser. sekitar ${Math.trunc(posisi)} meter dari posisi anda`
                   ).openPopup();
