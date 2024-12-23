@@ -1,6 +1,6 @@
 <x-layout.dokter>
 
-  <div class="flex h-screen flex-col justify-center gap-y-4">
+  <div class="flex h-screen my-auto flex-col justify-center gap-y-4">
 
     <div class="grid grid-cols-2 place-content-stretch gap-x-2 gap-y-4">
       <label class="me-5 inline-flex cursor-pointer items-center">
@@ -95,10 +95,10 @@
   @pushOnce('customJs')
     <script src="{{ Storage::disk('public')->url('js/jquery-2.1.1.min.js') }}"></script>
     {{-- <script src="{{ Storage::disk('public')->url('js/face-api.js') }}"></script> --}}
-    {{-- <script type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.14/dist/face-api.esm.min.js"></script> --}}
-    {{-- <script type="text/javascript"
-            src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script> --}}
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.14/dist/face-api.min.js"></script>
+    <script type="text/javascript"
+            src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
     <script type="module">
       document.addEventListener("DOMContentLoaded", async function(event) {
         console.log("DOM loaded");
