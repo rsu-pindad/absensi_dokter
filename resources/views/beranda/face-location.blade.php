@@ -373,7 +373,7 @@
                 ).draw(canvas)
               })
             }
-            if (detections[0].expressions.happy > 0.79) {
+            if (detections[0].expressions.happy > 0.89) {
               //   alert('Berhasil Absen');
               //   location.href = `{{ route('beranda') }}`;
               //   let picture = webcam.snap();
