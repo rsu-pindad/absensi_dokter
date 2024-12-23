@@ -98,7 +98,7 @@
              class="flex border-b px-4 py-3 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-600">
             <div class="flex-shrink-0">
               <img class="h-11 w-11 rounded-full"
-                   src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                   src="{{ Avatar::create(Auth::user()->name)->toBase64() }}"
                    alt="Bonnie Green avatar" />
               <div
                    class="absolute -mt-5 ml-6 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-primary-700 dark:border-gray-700">

@@ -36,7 +36,7 @@
                name="latitude"
                hidden>
         <input id="radiusInput"
-               type="number"
+               type="text"
                name="radius"
                hidden>
 
@@ -105,7 +105,8 @@
         //   minZoon: 18
         // });
 
-        navigator.geolocation.getCurrentPosition(
+        // navigator.geolocation.getCurrentPosition(
+        navigator.geolocation.watchPosition(
           function(response) {
             var radius = response.coords.accuracy;
             var lat = response.coords.latitude;
@@ -124,6 +125,7 @@
             var userLocation = map.getCenter();
             var absenLocation = circle.getLatLng();
             let posisi = map.distance(userLocation, absenLocation);
+            console.log(posisi);
 
             akurasiButton.innerText = `akurasi GPS : ${(radius).toFixed(0)}`;
             longitudeButton.innerText = `lat : ${(lat).toFixed(4)}`;
