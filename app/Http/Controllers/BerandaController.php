@@ -23,13 +23,9 @@ class BerandaController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->input());
-
-        // notyf()->success('Your form has been submitted.');
-
-        $safeLatitude  = request()->input('latitude');
-        $safeLongitude = request()->input('longitude');
-        $safeRadius    = request()->input('radius');
+        $safeLatitude  = request()->input('latitudeInput');
+        $safeLongitude = request()->input('longitudeInput');
+        $safeRadius    = request()->input('radiusInput');
 
         $absensiDokter = AbsensiDokter::create([
             'user_id'        => Auth::id(),
@@ -38,6 +34,10 @@ class BerandaController extends Controller
             'user_radius'    => $safeRadius,
         ]);
 
-        return to_route('beranda');
+        if ($absensiDokter) {
+            return response()->json(['status' => 201]);
+        }
+        return response()->json(['status' => 500]);
+        // return to_route('beranda');
     }
 }
