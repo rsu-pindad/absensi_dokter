@@ -1,8 +1,8 @@
 <x-layout.dokter>
 
-  <div class="mt-6 flex flex-col justify-center gap-y-4">
+  <div class="flex h-screen flex-col justify-center gap-y-4">
 
-    <div class="mt-4 grid grid-cols-2 place-content-stretch gap-3">
+    <div class="grid grid-cols-2 place-content-stretch gap-x-2 gap-y-4">
       <label class="me-5 inline-flex cursor-pointer items-center">
         <input id="webcam-switch"
                type="checkbox"
@@ -69,6 +69,10 @@
 
     </div>
 
+    <div class="grid grid-flow-col place-content-stretch">
+
+    </div>
+
     <div class="relative h-auto w-full">
       <video id="webcam"
              autoplay
@@ -93,8 +97,8 @@
     {{-- <script src="{{ Storage::disk('public')->url('js/face-api.js') }}"></script> --}}
     {{-- <script type="text/javascript"
             src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api@1.7.14/dist/face-api.esm.min.js"></script> --}}
-    <script type="text/javascript"
-            src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+    {{-- <script type="text/javascript"
+            src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script> --}}
     <script type="module">
       document.addEventListener("DOMContentLoaded", async function(event) {
         console.log("DOM loaded");
@@ -207,7 +211,7 @@
 
         function startDetection() {
           faceDetection = setInterval(async () => {
-            const detections = await faceapi.detectSingleFace(webcamElement, new faceapi
+            const detections = await faceapi.detectAllFaces(webcamElement, new faceapi
               .TinyFaceDetectorOptions()).withFaceLandmarks(true).withFaceExpressions().withAgeAndGender()
             // console.log(detections);
 
@@ -240,11 +244,12 @@
             }
             // console.log(resizedDetections);
 
-            // if (detections[0].expressions.happy >= 0.7) {
-            // alert('Berhasil Absen');
-            //   let picture = webcam.snap();
-            //   document.querySelector('#download-photo').href = picture;
-            // }
+            if (detections[0].expressions.happy >= 0.7) {
+              alert('Berhasil Absen');
+              location.href = `{{ route('absensi-location') }}`;
+              //   let picture = webcam.snap();
+              //   document.querySelector('#download-photo').href = picture;
+            }
 
             if (!$(".loading").hasClass('d-none')) {
               $(".loading").addClass('d-none')

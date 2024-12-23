@@ -11,4 +11,9 @@ class FaceRecognitionController extends Controller
     {
         return view('beranda.face');
     }
+
+    public function location()
+    {
+        return view('beranda.location');
+    }
 }
