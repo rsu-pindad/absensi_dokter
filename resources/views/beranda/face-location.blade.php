@@ -394,7 +394,7 @@
                 // Notiflix.Notify.success('Berhasil Absen');
                 let picture = webcam.snap();
                 document.querySelector('#canvas').href = picture;
-                // webcam.stop();
+                webcam.stop();
                 fetch(`{{ route('absensi-store') }}`, {
                   method: 'post',
                   credentials: "same-origin",
@@ -414,7 +414,6 @@
                   return response.json();
                 }).then((res) => {
                   if (res.status === 201) {
-                    webcam.stop();
                     Notiflix.Notify.success('Berhasil Absen');
                     location.href = `{{ route('beranda') }}`;
                   }
