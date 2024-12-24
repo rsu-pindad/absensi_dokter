@@ -33,7 +33,7 @@
                  src="{{ Storage::disk('public')->url('absensi') . '/'.$lastPhoto . '.png' }}"
                  alt="avatar" /> --}}
             <img class="rounded-t-lg"
-                 src="{{ url('storage/absensi/' . $lastPhoto . '.png') }}"
+                 src="{{ asset('storage/absensi/' . $lastPhoto . '.png') }}"
                  alt="avatar" />
           @else
             @svg('tabler-face-id', 'my-4 mx-auto h-56 w-56 text-green-600')
