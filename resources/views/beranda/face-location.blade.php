@@ -1,6 +1,6 @@
 <x-layout.dokter title="Halaman Absensi Dokter">
   <section id="sectionContent"
-           class="hidden bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
+           class="hidden h-full bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
     <div class="py-auto flex flex-col justify-center gap-y-4">
 
       <div class="grid grid-flow-col place-content-stretch gap-x-2 gap-y-4">
@@ -22,7 +22,7 @@
                    class="peer sr-only"
                    disabled>
             <div
-                 class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-red-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-red-800">
+                 class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-green-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-green-800">
             </div>
             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Kamera</span>
           </label>
@@ -80,25 +80,22 @@
       </div>
 
       <div id="map"
-           class="js-element-map relative block h-32 w-full self-center"></div>
+           class="js-element-map relative block h-48 w-full self-center"
+           width="520"
+           height="520"></div>
 
-      <div class="js-element-webcam relative block h-auto w-full self-center">
+      <div class="js-element-webcam relative grid h-auto w-full grid-cols-1 self-center">
         <video id="webcam"
                autoplay
                playsinline
-               width="480"
-               height="480"
-               class="relative rounded-xl bg-gray-200">
+               class="col-start-1 row-start-1 rounded-xl bg-gray-300">
         </video>
         <canvas id="canvas"
-                class="hidden w-full rounded-xl">
+                class="col-start-1 row-start-1 rounded-xl">
         </canvas>
-        <canvas id="webcam-container"
-                class="hidden w-full rounded-xl">
-        </canvas>
-        <audio id="snapSound"
+        {{-- <audio id="snapSound"
                src="#"
-               preload = "auto"></audio>
+               preload="auto"></audio> --}}
       </div>
 
       <div id="infoBanner"
@@ -111,7 +108,6 @@
         </div>
       </div>
 
-      {{-- <div class="js-element-map block"> --}}
       <div class="items-center justify-center align-middle">
         <form action="{{ route('absensi-store') }}"
               method="POST">
@@ -130,14 +126,9 @@
                  hidden>
         </form>
       </div>
-      {{-- </div> --}}
     </div>
 
   </section>
-
-  <canvas id="canvasCamera"
-          width="320"
-          height="240"></canvas>
 
   @pushOnce('customCss')
     <link rel="stylesheet"
@@ -171,8 +162,8 @@
         // Webcam
         const webcamElement = document.getElementById('webcam');
         const canvasElement = document.getElementById('canvas');
-        const snapSoundElement = document.getElementById('snapSound');
-        const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+        // const snapSoundElement = document.getElementById('snapSound');
+        const webcam = new Webcam(webcamElement, 'user', canvasElement);
 
         const webcamSwitch = document.getElementById('webcam-switch');
         const detectionSwitch = document.getElementById('detection-switch');
@@ -206,6 +197,8 @@
         // let cameraFlip = document.getElementById('cameraFlip');
 
         webcamElement.addEventListener('loadedmetadata', function() {
+          console.log('loaded metadata');
+
           displaySize = {
             width: this.scrollWidth,
             height: this.scrollHeight
@@ -221,11 +214,11 @@
                 console.log("webcam started");
               })
               .catch(err => {
-                displayError();
+                displayError(err);
               });
           } else {
             cameraStopped();
-            webcam.stop();
+            // webcam.stop();
             console.log("webcam stopped");
           }
         });
@@ -237,7 +230,7 @@
             toggleContrl("expression-switch", true);
             toggleContrl("age-gender-switch", true);
             $("#box-switch").prop('checked', true);
-            $(".loading").removeClass('d-none');
+            // $(".loading").removeClass('d-none');
             Promise.all([
               faceapi.nets.tinyFaceDetector.loadFromUri(
                 `{{ Storage::disk('public')->url('models/tiny_face_detector_model-weights_manifest.json') }}`
@@ -270,28 +263,37 @@
         });
 
         function createCanvas() {
+          console.log(document.getElementsByTagName("canvas").length);
+
           if (document.getElementsByTagName("canvas").length == 0) {
-            canvas = faceapi.createCanvasFromMedia(webcamElement)
-            document.getElementById('webcam-container').append(canvas)
-            faceapi.matchDimensions(canvas, displaySize)
+            canvas = faceapi.createCanvasFromMedia(webcamElement);
+            // document.getElementById('webcam-container').append(canvas);
+            // webcamContainer.classList.remove('hidden');
+            canvasElement.append(canvas);
+            faceapi.matchDimensions(canvas, displaySize);
           }
         }
 
         function toggleContrl(id, show) {
           if (show) {
             $("#" + id).prop('disabled', false);
-            $("#" + id).parent().removeClass('disabled');
+            // $("#" + id).parent().removeClass('disabled');
           } else {
             $("#" + id).prop('checked', false).change();
             $("#" + id).prop('disabled', true);
-            $("#" + id).parent().addClass('disabled');
+            // $("#" + id).parent().addClass('disabled');
           }
         }
 
-        var map = L.map('map').setView([-6.940067507628112, 107.64661628064961], 18);
+        var map = L.map('map', {
+          zoomControl: false,
+          dragging: false,
+          tap: false,
+          doubleClickZoom: false,
+        }).setView([-6.940067507628112, 107.64661628064961], 17);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 18,
-          minZoom: 18,
+          maxZoom: 17,
+          minZoom: 17,
           attribution: '© OpenStreetMap'
         }).addTo(map);
 
@@ -325,7 +327,7 @@
               lat,
               lon
             }).addTo(map);
-            map.setView([lat, lon], 18);
+            map.setView([lat, lon], 17);
 
             var userLocation = map.getCenter();
             var absenLocation = circle.getLatLng();
@@ -364,36 +366,36 @@
               .TinyFaceDetectorOptions()).withFaceLandmarks(true).withFaceExpressions().withAgeAndGender()
             const resizedDetections = faceapi.resizeResults(detections, displaySize)
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-            if ($("#box-switch").is(":checked")) {
-              faceapi.draw.drawDetections(canvas, resizedDetections)
-            }
-            if ($("#landmarks-switch").is(":checked")) {
-              faceapi.draw.drawFaceLandmarks(canvas, resizedDetections)
-            }
-            if ($("#expression-switch").is(":checked")) {
-              faceapi.draw.drawFaceExpressions(canvas, resizedDetections)
-            }
-            if ($("#age-gender-switch").is(":checked")) {
-              resizedDetections.forEach(result => {
-                const {
-                  age,
-                  gender,
-                  genderProbability
-                } = result
-                new faceapi.draw.DrawTextField(
-                  [
-                    `${Math.round(age, 0)} tahun`,
-                    `${gender} (${Math.round(genderProbability)})`
-                  ],
-                  result.detection.box.bottomRight
-                ).draw(canvas)
-              })
-            }
+            // if ($("#box-switch").is(":checked")) {
+            faceapi.draw.drawDetections(canvas, resizedDetections);
+            // }
+            // if ($("#landmarks-switch").is(":checked")) {
+            faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+            // }
+            // if ($("#expression-switch").is(":checked")) {
+            faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+            // }
+            // if ($("#age-gender-switch").is(":checked")) {
+            resizedDetections.forEach(result => {
+              const {
+                age,
+                gender,
+                genderProbability
+              } = result
+              new faceapi.draw.DrawTextField(
+                [
+                  `${Math.round(age, 0)} tahun`,
+                  `${gender} (${Math.round(genderProbability)})`
+                ],
+                result.detection.box.bottomRight
+              ).draw(canvas)
+            })
+            // }
             if (detections[0] !== undefined) {
               if (detections[0].expressions.happy > 0.94) {
-                // Notiflix.Notify.success('Berhasil Absen');
                 let picture = webcam.snap();
-                document.querySelector('#canvas').href = picture;
+                // document.querySelector('#canvas').href = picture;
+                Notiflix.Block.standard('.js-element-webcam', 'absen sedang berlangsung...');
                 webcam.stop();
                 fetch(`{{ route('absensi-store') }}`, {
                   method: 'post',
@@ -414,11 +416,25 @@
                   return response.json();
                 }).then((res) => {
                   if (res.status === 201) {
+                    iBanner.classList.add('hidden');
                     Notiflix.Notify.success('Berhasil Absen');
                     location.href = `{{ route('beranda') }}`;
                   }
+                  if (res.status === 400) {
+                    webcam.start()
+                      .then(result => {
+                        cameraStarted();
+                        webcamElement.style.transform = "";
+                        console.log("webcam started");
+                      })
+                      .catch(err => {
+                        displayError(err);
+                      });
+                    res.validasi.forEach((element) => Notiflix.Notify.warning(element));
+                    Notiflix.Block.remove('.js-element-webcam', 2000);
+                  }
                 }).catch((error) => {
-                  Notiflix.Notify.failure('terjadi kendala');
+                  Notiflix.Notify.failure(error);
                 })
               }
             }
@@ -428,17 +444,19 @@
         function cameraStarted() {
           iBanner.classList.remove('hidden');
           Notiflix.Block.remove('.js-element-webcam', 2000);
-          toggleContrl("detection-switch", true);
+          // toggleContrl("detection-switch", true);
           // $("#errorMsg").addClass("d-none");
-          if (webcam.webcamList.length > 1) {
-            // $("#cameraFlip").removeClass('d-none');
-          }
+          // if (webcam.webcamList.length > 1) {
+          // $("#cameraFlip").removeClass('d-none');
+          // }
         }
 
         function cameraStopped() {
+          webcam.stop();
+          iBanner.classList.add('hidden');
           Notiflix.Block.standard('.js-element-webcam', 'akses kamera berhenti...');
-          Notiflix.Notify.info('Kamera berhenti');
-          toggleContrl("detection-switch", false);
+          Notiflix.Notify.info('akses kamera berhenti');
+          // toggleContrl("detection-switch", false);
           //   $("#errorMsg").addClass("d-none");
           //   $("#cameraFlip").addClass('d-none');
         }
