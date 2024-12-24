@@ -1,11 +1,12 @@
-<x-layout.dokter>
+<x-layout.dokter title="Halaman Absensi Dokter">
+  <section id="sectionContent"
+           class="hidden bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
+    <div class="py-auto flex flex-col justify-center gap-y-4">
 
-  <div class="py-auto flex flex-col justify-center gap-y-4">
+      <div class="grid grid-flow-col place-content-stretch gap-x-2 gap-y-4">
 
-    <div class="grid grid-flow-col place-content-stretch gap-x-2 gap-y-4">
-
-      <div class="flex justify-evenly">
-        <label class="me-5 inline-flex cursor-pointer items-center">
+        <div class="flex justify-center">
+          {{-- <label class="me-5 inline-flex cursor-pointer items-center">
           <input id="location-switch"
                  type="checkbox"
                  class="peer sr-only">
@@ -13,21 +14,21 @@
                class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-red-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-red-800">
           </div>
           <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Lokasi</span>
-        </label>
+        </label> --}}
 
-        <label class="me-5 inline-flex cursor-pointer items-center">
-          <input id="webcam-switch"
-                 type="checkbox"
-                 class="peer sr-only"
-                 disabled>
-          <div
-               class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-red-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-red-800">
-          </div>
-          <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Camera</span>
-        </label>
-      </div>
+          <label class="me-5 inline-flex cursor-pointer items-center">
+            <input id="webcam-switch"
+                   type="checkbox"
+                   class="peer sr-only"
+                   disabled>
+            <div
+                 class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-red-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-red-800">
+            </div>
+            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Kamera</span>
+          </label>
+        </div>
 
-      {{-- <label class="me-5 inline-flex cursor-pointer items-center">
+        {{-- <label class="me-5 inline-flex cursor-pointer items-center">
         <input id="detection-switch"
                type="checkbox"
                class="peer sr-only"
@@ -71,54 +72,72 @@
         <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Perkiraan Umur</span>
       </label> --}}
 
+      </div>
+
+      <div id="waktuAbsen"
+           onload="waktuSekarang()"
+           class="text-balance self-center text-2xl font-semibold">
+      </div>
+
+      <div id="map"
+           class="js-element-map relative block h-32 w-full self-center"></div>
+
+      <div class="js-element-webcam relative block h-auto w-full self-center">
+        <video id="webcam"
+               autoplay
+               playsinline
+               width="480"
+               height="480"
+               class="relative rounded-xl bg-gray-200">
+        </video>
+        <canvas id="canvas"
+                class="hidden w-full rounded-xl">
+        </canvas>
+        <canvas id="webcam-container"
+                class="hidden w-full rounded-xl">
+        </canvas>
+        <audio id="snapSound"
+               src="#"
+               preload = "auto"></audio>
+      </div>
+
+      <div id="infoBanner"
+           class="my-2 flex hidden items-center rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
+           role="alert">
+        @svg('tabler-info-circle', 'me-3 inline h-4 w-4 flex-shrink-0')
+        <span class="sr-only">Info</span>
+        <div>
+          Mohon <span class="font-medium">tersenyum</span> pada kamera untuk melakukan absensi
+        </div>
+      </div>
+
+      {{-- <div class="js-element-map block"> --}}
+      <div class="items-center justify-center align-middle">
+        <form action="{{ route('absensi-store') }}"
+              method="POST">
+          @csrf
+          <input id="longitudeInput"
+                 type="text"
+                 name="longitude"
+                 hidden>
+          <input id="latitudeInput"
+                 type="text"
+                 name="latitude"
+                 hidden>
+          <input id="radiusInput"
+                 type="text"
+                 name="radius"
+                 hidden>
+        </form>
+      </div>
+      {{-- </div> --}}
     </div>
 
-    <div id="waktuAbsen"
-         onload="waktuSekarang()"
-         class="text-balance self-center text-2xl font-semibold">
-    </div>
+  </section>
 
-    <div id="map"
-         class="js-element-map relative block h-32 w-full self-center"></div>
-
-    <div class="js-element-webcam relative block h-auto w-full self-center">
-      <video id="webcam"
-             autoplay
-             playsinline
-             width="480"
-             height="480"
-             class="relative rounded-xl bg-gray-200">
-      </video>
-      <canvas id="canvas"
-              class="relative hidden w-full rounded-xl">
-      </canvas>
-      <canvas id="webcam-container"
-              class="relative hidden w-full rounded-xl">
-      </canvas>
-    </div>
-
-    {{-- <div class="js-element-map block"> --}}
-    <div class="items-center justify-center align-middle">
-      <form action="{{ route('absensi-store') }}"
-            method="POST">
-        @csrf
-        <input id="longitudeInput"
-               type="text"
-               name="longitude"
-               hidden>
-        <input id="latitudeInput"
-               type="text"
-               name="latitude"
-               hidden>
-        <input id="radiusInput"
-               type="text"
-               name="radius"
-               hidden>
-      </form>
-    </div>
-    {{-- </div> --}}
-
-  </div>
+  <canvas id="canvasCamera"
+          width="320"
+          height="240"></canvas>
 
   @pushOnce('customCss')
     <link rel="stylesheet"
@@ -143,39 +162,38 @@
     <script src="https://cdn.jsdelivr.net/npm/dayjs/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/id.js"></script>
     <script type="module">
-      document.addEventListener("DOMContentLoaded", async function(event) {
-        console.log("DOM loaded");
-        // Notiflix.Block.init({});
-        Notiflix.Block.standard('.js-element-webcam', 'Meminta ijin kamera...');
-        Notiflix.Block.standard('.js-element-map', 'Meminta ijin lokasi...');
-        let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      window.addEventListener("load", async function(event) {
+        Notiflix.Loading.remove(1000);
+        Notiflix.Block.standard('.js-element-webcam', 'menunggu akses ijin kamera...');
+        Notiflix.Block.standard('.js-element-map', 'menunggu akses ijin lokasi...');
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
+        // Webcam
         const webcamElement = document.getElementById('webcam');
-        const webcam = new Webcam(webcamElement, 'user');
+        const canvasElement = document.getElementById('canvas');
+        const snapSoundElement = document.getElementById('snapSound');
+        const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+
+        const webcamSwitch = document.getElementById('webcam-switch');
+        const detectionSwitch = document.getElementById('detection-switch');
+        const boxSwitch = document.getElementById('box-switch');
+        const expressionSwitch = document.getElementById('expression-switch');
+        const ageSwitch = document.getElementById('age-gender-switch');
+        // const locationSwitch = document.getElementById('location-switch');
+
+        const waktuAbsen = document.getElementById('waktuAbsen');
+        const longInput = document.getElementById('longitudeInput');
+        const latInput = document.getElementById('latitudeInput');
+        const radiusInput = document.getElementById('radiusInput');
+        const iBanner = document.getElementById('infoBanner');
+
         let currentStream;
         let displaySize;
         let convas;
         let faceDetection;
-
-        let webcamSwitch = document.getElementById('webcam-switch');
-        let detectionSwitch = document.getElementById('detection-switch');
-        let boxSwitch = document.getElementById('box-switch');
-        let expressionSwitch = document.getElementById('expression-switch');
-        let ageSwitch = document.getElementById('age-gender-switch');
-        let locationSwitch = document.getElementById('location-switch');
-        let waktuAbsen = document.getElementById('waktuAbsen');
-        // waktuAbsen.innerText = dayjs().locale('id-ID').format('dddd ,DD-MMMM-YYYY, HH:mm:s');
-        // let absenButton = document.getElementById('absenBtn');
-        // let akurasiButton = document.getElementById('akurasiBtn');
-        // let longitudeButton = document.getElementById('longitudeBtn');
-        // let latitudeButton = document.getElementById('latitudeBtn');
-
-        let longInput = document.getElementById('longitudeInput');
-        let latInput = document.getElementById('latitudeInput');
-        let radiusInput = document.getElementById('radiusInput');
-
         let watchdogUser;
         let radiusAbsensi = 35;
+        let userLocationAkses = false;
 
         function waktuSekarang() {
           waktuAbsen.innerText = dayjs().locale('id-ID').format('HH:mm:s');
@@ -285,62 +303,60 @@
         }).addTo(map);
 
         // navigator.geolocation.getCurrentPosition(
-        locationSwitch.addEventListener('change', function(e) {
-          e.preventDefault();
-          Notiflix.Block.remove('.js-element-map', 2000);
-          getUserLocation();
-        });
+        // locationSwitch.addEventListener('change', function(e) {
+        //   e.preventDefault();
+        //   Notiflix.Block.remove('.js-element-map', 2000);
+        //   getUserLocation();
+        // });
+        // getUserLocation();
 
-        function getUserLocation() {
-          webcamSwitch.disabled = false;
-          watchdogUser = setInterval(async () => {
-            navigator.geolocation.getCurrentPosition(
-              function(response) {
-                var radius = response.coords.accuracy;
-                var lat = response.coords.latitude;
-                var lon = response.coords.longitude;
-                var userMarker = L.marker({
-                  lat,
-                  lon
-                }).addTo(map);
-                map.setView([lat, lon], 18);
+        // function getUserLocation() {
+        //   webcamSwitch.disabled = false;
+        //   watchdogUser = setInterval(async () => {
+        navigator.geolocation.getCurrentPosition(
+          function(response) {
+            userLocationAkses = true;
+            webcamSwitch.disabled = false;
+            Notiflix.Block.remove('.js-element-map', 2000);
+            var radius = response.coords.accuracy;
+            var lat = response.coords.latitude;
+            var lon = response.coords.longitude;
+            var userMarker = L.marker({
+              lat,
+              lon
+            }).addTo(map);
+            map.setView([lat, lon], 18);
 
-                var userLocation = map.getCenter();
-                var absenLocation = circle.getLatLng();
-                let posisi = map.distance(userLocation, absenLocation);
+            var userLocation = map.getCenter();
+            var absenLocation = circle.getLatLng();
+            let posisi = map.distance(userLocation, absenLocation);
 
-                // akurasiButton.innerText = `akurasi GPS : ${(radius).toFixed(0)}`;
-                // longitudeButton.innerText = `lat : ${(lat).toFixed(4)}`;
-                // latitudeButton.innerText = `long : ${(lon).toFixed(4)}`;
-                longInput.value = lon;
-                latInput.value = lat;
-                radiusInput.value = posisi;
-                if (posisi < radiusAbsensi) {
-                  // Notiflix.Notify.success('Lokasi ditemukan');
-                  userMarker.bindPopup("Anda berada di zona absen!").openPopup();
-                  // absenButton.disabled = false;
-                  // absenButton.classList.remove("cursor-not-allowed");
-                } else {
-                  // absenButton.disabled = false;
-                  // webcam.stop();
-                  // Notiflix.Notify.warning('anda diluar zona');
-                  userMarker.bindPopup(
-                    `Anda berada di luar zona absen, mohon geser. sekitar ${Math.trunc(posisi)} meter dari posisi anda`
-                  ).openPopup();
-                }
-
-              },
-              function(error) {
-                console.error(error);
-                alert(error);
-              }, {
-                timeout: 1000 * 60,
-                enableHighAccuracy: true,
-                maximumAge: 1000 * 60 * 60
-              }
-            )
-          }, 2000);
-        }
+            // akurasiButton.innerText = `akurasi GPS : ${(radius).toFixed(0)}`;
+            // longitudeButton.innerText = `lat : ${(lat).toFixed(4)}`;
+            // latitudeButton.innerText = `long : ${(lon).toFixed(4)}`;
+            longInput.value = lon;
+            latInput.value = lat;
+            radiusInput.value = posisi;
+            if (posisi <= radiusAbsensi) {
+              userMarker.bindPopup("Anda berada di zona absen!").openPopup();
+            } else {
+              userMarker.bindPopup(
+                `Anda berada di luar zona absen, mohon geser. sekitar ${Math.trunc(posisi)} meter dari posisi anda`
+              ).openPopup();
+            }
+          },
+          function(error) {
+            console.error(error);
+            return Notiflix.Notify.failure('Lokasi akses tidak dijinkan');
+          }, {
+            timeout: 1000 * 60,
+            enableHighAccuracy: true,
+            maximumAge: 1000 * 60 * 60
+          }
+        )
+        // }, 2000);
+        // console.log(watchdogUser);
+        // }
 
         function startDetection() {
           faceDetection = setInterval(async () => {
@@ -373,62 +389,47 @@
                 ).draw(canvas)
               })
             }
-            if (detections[0].expressions.happy > 0.89) {
-              //   alert('Berhasil Absen');
-              //   location.href = `{{ route('beranda') }}`;
-              //   let picture = webcam.snap();
-              //   document.querySelector('#download-photo').href = picture;
-
-              webcam.stop();
-              let aInput = document.getElementById('latitudeInput').value;
-              let bInput = document.getElementById('longitudeInput').value;
-              let cInput = document.getElementById('radiusInput').value;
-              console.log(aInput);
-              console.log(bInput);
-              console.log(cInput);
-
-              fetch(`{{ route('absensi-store') }}`, {
-                method: 'post',
-                credentials: "same-origin",
-                body: JSON.stringify({
-                  latitudeInput: aInput,
-                  longitudeInput: bInput,
-                  radiusInput: cInput,
-                }),
-                headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                  "X-Requested-With": "XMLHttpRequest",
-                  "X-CSRF-TOKEN": token,
-                },
-              }).then((response) => {
-                return response.json();
-              }).then((res) => {
-                if (res.status === 201) {
-                  Notiflix.Notify.success('Berhasil Absen');
-                  location.href = `{{ route('beranda') }}`;
-                }
-              }).catch((error) => {
-                Notiflix.Notify.failure('error');
-              })
+            if (detections[0] !== undefined) {
+              if (detections[0].expressions.happy > 0.94) {
+                // Notiflix.Notify.success('Berhasil Absen');
+                let picture = webcam.snap();
+                document.querySelector('#canvas').href = picture;
+                // webcam.stop();
+                fetch(`{{ route('absensi-store') }}`, {
+                  method: 'post',
+                  credentials: "same-origin",
+                  body: JSON.stringify({
+                    latitudeInput: document.getElementById('latitudeInput').value,
+                    longitudeInput: document.getElementById('longitudeInput').value,
+                    radiusInput: document.getElementById('radiusInput').value,
+                    pictureInput: picture,
+                  }),
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": token,
+                  },
+                }).then((response) => {
+                  return response.json();
+                }).then((res) => {
+                  if (res.status === 201) {
+                    Notiflix.Notify.success('Berhasil Absen');
+                    location.href = `{{ route('beranda') }}`;
+                  }
+                }).catch((error) => {
+                  Notiflix.Notify.failure('terjadi kendala');
+                })
+              }
             }
-
-            if (!$(".loading").hasClass('d-none')) {
-              $(".loading").addClass('d-none')
-            }
-          }, 300)
-        }
-
-        function stopDetection() {
-          //   const stopper = () => {
-          clearInterval(faceDetection);
-          //   };
+          }, 400)
         }
 
         function cameraStarted() {
+          iBanner.classList.remove('hidden');
           Notiflix.Block.remove('.js-element-webcam', 2000);
           toggleContrl("detection-switch", true);
-          $("#errorMsg").addClass("d-none");
+          // $("#errorMsg").addClass("d-none");
           if (webcam.webcamList.length > 1) {
             // $("#cameraFlip").removeClass('d-none');
           }

@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible"
           content="ie=edge">
     <title>{{ $title ?? 'Absensi Dokter' }}</title>
+    @stack('customCss')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
 

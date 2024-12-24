@@ -17,6 +17,7 @@ class AbsensiDokter extends Model
         'user_latitude',
         'user_longitude',
         'user_radius',
+        'user_photo',
     ];
 
     protected $hidden = [

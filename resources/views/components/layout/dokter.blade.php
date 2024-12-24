@@ -29,6 +29,14 @@
 
     @stack('customJs')
 
+    <script type="module">
+      window.addEventListener("load", (event) => {
+        // console.log("page is fully loaded");
+        document.getElementById('sectionContent').classList.remove('hidden');
+        Notiflix.Loading.remove(1000);
+      });
+    </script>
+
   </body>
 
 </html>

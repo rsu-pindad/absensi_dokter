@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('user_latitude');
             $table->string('user_longitude');
             $table->string('user_radius');
+            $table->string('user_photo');
             $table->softDeletes();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

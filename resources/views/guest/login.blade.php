@@ -1,5 +1,6 @@
 <x-layout.guest title="Halaman Masuk">
-  <div class="mx-auto flex flex-col items-center justify-center px-3 py-4">
+  <div id="loginContent"
+       class="mx-auto flex hidden flex-col items-center justify-center px-3 py-4">
     <a href="#"
        class="mb-6 flex items-center text-2xl font-semibold text-gray-900 dark:text-white">
       @svg('tabler-activity', 'w-24 h-24 text-lime-500 animate-pulse hover:text-blue-500 hover:animate-ping hover:rounded-full hover:bg-gray-100 hover:shadow')
@@ -34,17 +35,28 @@
     </div>
   </div>
 
+  @pushOnce('customCss')
+    <link href="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/src/notiflix.min.css"
+          rel="stylesheet" />
+  @endPushOnce
+
   @pushOnce('customJs')
+    <script src="https://cdn.jsdelivr.net/npm/notiflix@3.2.7/dist/notiflix-aio-3.2.7.min.js"></script>
     <script type="module">
-      document.addEventListener("DOMContentLoaded", (event) => {
-        console.log("DOM loaded");
+      window.addEventListener("load", (event) => {
+        console.log("Content Fully loaded");
+        Notiflix.Loading.remove(1000);
+        document.getElementById('loginContent').classList.remove('hidden');
         let googleBtn = document.getElementById('googleButton');
         googleBtn.addEventListener('click', function(e) {
           e.preventDefault();
           const url = `{{ route('google-redirect') }}`;
-          // console.log('button clicked');
           location.href = url;
         });
+      });
+      document.addEventListener("DOMContentLoaded", (event) => {
+        console.log("DOM loaded");
+        Notiflix.Loading.standard('Loading...');
       });
     </script>
   @endPushOnce
