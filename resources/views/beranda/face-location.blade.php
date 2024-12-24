@@ -414,6 +414,7 @@
                   return response.json();
                 }).then((res) => {
                   if (res.status === 201) {
+                    webcam.stop();
                     Notiflix.Notify.success('Berhasil Absen');
                     location.href = `{{ route('beranda') }}`;
                   }
