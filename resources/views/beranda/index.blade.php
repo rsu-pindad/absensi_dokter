@@ -27,13 +27,9 @@
     @else
       <div class="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
         <a href="#">
-          {{-- <img src="{{ url('storage/images/'.$article->image) }}" alt="" title="" /> --}}
           @isset($lastPhoto)
-            {{-- <img class="rounded-t-lg"
-                 src="{{ Storage::disk('public')->url('absensi') . '/'.$lastPhoto . '.png' }}"
-                 alt="avatar" /> --}}
             <img class="rounded-t-lg"
-                 src="{{ asset('storage/absensi/' . $lastPhoto . '.png') }}"
+                 src="{{ Storage::disk('public')->url('absensi') . '/' . $lastPhoto . '.png' }}"
                  alt="avatar" />
           @else
             @svg('tabler-face-id', 'my-4 mx-auto h-56 w-56 text-green-600')

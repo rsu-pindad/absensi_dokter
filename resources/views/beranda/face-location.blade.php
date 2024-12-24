@@ -1,78 +1,18 @@
 <x-layout.dokter title="Halaman Absensi Dokter">
   <section id="sectionContent"
-           class="hidden h-full bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
+           class="hidden bg-white px-4 py-8 antialiased dark:bg-gray-900 md:py-16">
     <div class="py-auto flex flex-col justify-center gap-y-4">
 
-      <div class="grid grid-flow-col place-content-stretch gap-x-2 gap-y-4">
-
-        <div class="flex justify-center">
-          {{-- <label class="me-5 inline-flex cursor-pointer items-center">
-          <input id="location-switch"
-                 type="checkbox"
-                 class="peer sr-only">
-          <div
-               class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-red-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-red-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-red-800">
-          </div>
-          <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Lokasi</span>
-        </label> --}}
-
-          <label class="me-5 inline-flex cursor-pointer items-center">
-            <input id="webcam-switch"
-                   type="checkbox"
-                   class="peer sr-only"
-                   disabled>
-            <div
-                 class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-green-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-green-800">
-            </div>
-            <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Kamera</span>
-          </label>
-        </div>
-
-        {{-- <label class="me-5 inline-flex cursor-pointer items-center">
-        <input id="detection-switch"
+      <label class="me-5 inline-flex cursor-pointer self-center">
+        <input id="webcam-switch"
                type="checkbox"
                class="peer sr-only"
-               readonly>
+               disabled>
         <div
-             class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-purple-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-purple-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-purple-800">
+             class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-green-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-green-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-green-800">
         </div>
-        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Deteksi Wajah</span>
+        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Kamera</span>
       </label>
-
-      <label class="me-5 inline-flex cursor-pointer items-center">
-        <input id="box-switch"
-               type="checkbox"
-               class="peer sr-only"
-               readonly>
-        <div
-             class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-yellow-400 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-yellow-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-yellow-800">
-        </div>
-        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Box</span>
-      </label>
-
-      <label class="me-5 inline-flex cursor-pointer items-center">
-        <input id="expression-switch"
-               type="checkbox"
-               class="peer sr-only"
-               readonly>
-        <div
-             class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-teal-600 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-teal-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-teal-800">
-        </div>
-        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Mood</span>
-      </label>
-
-      <label class="me-5 inline-flex cursor-pointer items-center">
-        <input id="age-gender-switch"
-               type="checkbox"
-               class="peer sr-only"
-               readonly>
-        <div
-             class="peer relative h-6 w-11 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-orange-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:ring-4 peer-focus:ring-orange-300 rtl:peer-checked:after:-translate-x-full dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-orange-800">
-        </div>
-        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Perkiraan Umur</span>
-      </label> --}}
-
-      </div>
 
       <div id="waktuAbsen"
            onload="waktuSekarang()"
@@ -80,11 +20,10 @@
       </div>
 
       <div id="map"
-           class="js-element-map relative block h-48 w-full self-center"
-           width="520"
-           height="520"></div>
+           class="js-element-map relative z-0 h-48 w-full self-center">
+      </div>
 
-      <div class="js-element-webcam relative grid h-auto w-full grid-cols-1 self-center">
+      <div class="js-element-webcam relative grid grid-cols-1 self-center">
         <video id="webcam"
                autoplay
                playsinline
@@ -93,9 +32,6 @@
         <canvas id="canvas"
                 class="col-start-1 row-start-1 rounded-xl">
         </canvas>
-        {{-- <audio id="snapSound"
-               src="#"
-               preload="auto"></audio> --}}
       </div>
 
       <div id="infoBanner"
@@ -225,11 +161,11 @@
 
         webcamSwitch.addEventListener('change', function() {
           if (this.checked) {
-            toggleContrl("box-switch", true);
-            toggleContrl("landmarks-switch", true);
-            toggleContrl("expression-switch", true);
-            toggleContrl("age-gender-switch", true);
-            $("#box-switch").prop('checked', true);
+            // toggleContrl("box-switch", true);
+            // toggleContrl("landmarks-switch", true);
+            // toggleContrl("expression-switch", true);
+            // toggleContrl("age-gender-switch", true);
+            // $("#box-switch").prop('checked', true);
             // $(".loading").removeClass('d-none');
             Promise.all([
               faceapi.nets.tinyFaceDetector.loadFromUri(
@@ -250,11 +186,11 @@
             })
           } else {
             clearInterval(faceDetection);
-            toggleContrl("box-switch", false);
-            toggleContrl("landmarks-switch", false);
-            toggleContrl("expression-switch", false);
-            toggleContrl("age-gender-switch", false);
-            if (typeof canvas !== "undefined") {
+            // toggleContrl("box-switch", false);
+            // toggleContrl("landmarks-switch", false);
+            // toggleContrl("expression-switch", false);
+            // toggleContrl("age-gender-switch", false);
+            if (typeof canvas !== undefined) {
               setTimeout(function() {
                 canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
               }, 1000);
@@ -274,16 +210,16 @@
           }
         }
 
-        function toggleContrl(id, show) {
-          if (show) {
-            $("#" + id).prop('disabled', false);
-            // $("#" + id).parent().removeClass('disabled');
-          } else {
-            $("#" + id).prop('checked', false).change();
-            $("#" + id).prop('disabled', true);
-            // $("#" + id).parent().addClass('disabled');
-          }
-        }
+        // function toggleContrl(id, show) {
+        //   if (show) {
+        //     $("#" + id).prop('disabled', false);
+        //     // $("#" + id).parent().removeClass('disabled');
+        //   } else {
+        //     $("#" + id).prop('checked', false).change();
+        //     $("#" + id).prop('disabled', true);
+        //     // $("#" + id).parent().addClass('disabled');
+        //   }
+        // }
 
         var map = L.map('map', {
           zoomControl: false,
@@ -392,7 +328,7 @@
             })
             // }
             if (detections[0] !== undefined) {
-              if (detections[0].expressions.happy > 0.94) {
+              if (detections[0].expressions.happy > 0.98) {
                 let picture = webcam.snap();
                 // document.querySelector('#canvas').href = picture;
                 Notiflix.Block.standard('.js-element-webcam', 'absen sedang berlangsung...');
