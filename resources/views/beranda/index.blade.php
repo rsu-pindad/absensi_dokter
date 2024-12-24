@@ -15,7 +15,7 @@
           </a>
           <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
             {{ Illuminate\Support\Carbon::today()->formatLocalized('%A, %d %B %Y') }}
-          anda belum Absen !
+            anda belum Absen !
           </p>
           <a href="{{ route('absensi-fl') }}"
              class="inline-flex items-center rounded-lg bg-lime-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-lime-800 focus:outline-none focus:ring-4 focus:ring-lime-300 dark:bg-lime-600 dark:hover:bg-lime-700 dark:focus:ring-lime-800">
@@ -29,10 +29,10 @@
         <a href="#">
           @isset($lastPhoto)
             <img class="rounded-t-lg"
-                 src="{{ Storage::disk('public')->url('absensi/' . $lastPhoto . '.png') }}"
+                 src="{{ Storage::disk('public')->url('absensi') . '/'.$lastPhoto . '.png' }}"
                  alt="avatar" />
           @else
-          @svg('tabler-face-id', 'my-4 mx-auto h-56 w-56 text-green-600')
+            @svg('tabler-face-id', 'my-4 mx-auto h-56 w-56 text-green-600')
           @endisset
         </a>
         <div class="p-5">
